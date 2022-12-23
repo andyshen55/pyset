@@ -4,9 +4,12 @@ This is the source code for PySet, a Set solver rendered in pygame. PySet was bu
 
 
 ## Setup
+Note: `pygame 2.1` is currently only compatible with Python versions <= 3.9
+
+
 Conda installation: 
 
-- `conda create -n <your_env_name> python=3.9` to create an environment compatible with `pygame 2.1` 
+- `conda create -n <your_env_name> python=3.9` 
 - `conda activate <your_env_name>`
 - `conda install pip`
 - `pip install pygame`
