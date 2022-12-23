@@ -9,7 +9,15 @@ class Card:
         self.fill = fill.lower()
 
     def __repr__(self):
-        return f"shape: {self.shape}, color: {self.color}, number: {self.number}, fill: {self.fill}"
+        return f"shape: {self.shape} | color: {self.color} | number: {self.number} | fill: {self.fill}"
+
+    def __eq__(self, other):
+        return (
+            self.shape == other.shape
+            and self.color == other.color
+            and self.number == other.number
+            and self.fill == other.fill
+        )
 
     def card_string(self):
         return compress_card(self.shape, self.color, self.number, self.fill)
