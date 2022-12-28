@@ -1,7 +1,6 @@
 import pygame
 from pygame import display
 import os
-from card import Card
 from game import Game
 
 
@@ -19,8 +18,8 @@ def set_game_window():
 
 def draw_window(win, game):
     win.fill((255, 255, 255))
-    for index, card in enumerate(game.deck):
-        win.blit(pygame.image.load(os.path.join('assets', card_to_img(card))), ((index%7)*300, (index//7)*100))
+    for index, card in enumerate(game.cards):
+        win.blit(pygame.image.load(os.path.join('assets', card_to_img(card))), ((index%7)*200, display.Info().current_h//3 + (index//7)*100))
     display.update()
 
 
