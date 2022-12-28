@@ -11,7 +11,9 @@ class Game:
         cap_size = 21
 
         self.deck = self.generate_deck()
-        self.cards = sample(self.deck, cap_size)
+        shuffle(self.deck)
+        self.cards = self.deck[-cap_size:]
+        self.deck = self.deck[:-cap_size]
         self.selected = []
 
         self.hint = False
@@ -43,18 +45,8 @@ class Game:
             self.selected = []
 
     def replace_cards(self):
-        shuffle(self.deck)
-        curr = 0
-        replacements = []
-
-        while len(replacements) < 3:
-            if self.deck[curr] not in self.cards:
-                replacements.append(self.deck[curr])
-
-            curr += 1
-
-        for i, card in enumerate(self.selected):
-            self.cards[card] = replacements[i]
+        for card in self.selected:
+            self.cards[card] = self.deck.pop()
 
     """
     Following code would not be provided by students. 
