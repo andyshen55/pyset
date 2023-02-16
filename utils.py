@@ -39,3 +39,10 @@ shape_basis = {"oval": 0, "diamond": 1, "squiggle": 2}
 color_basis = {"red": 0, "purple": 1, "green": 2}
 number_basis = {1: 0, 2: 1, 3: 2}
 fill_basis = {"filled": 0, "blank": 1, "lined": 2}
+
+
+OFF_WHITE = (250, 250, 250)
+GREEN = (0, 255, 0)
+
+COLS = 7
+ROWS = 3
