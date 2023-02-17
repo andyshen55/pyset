@@ -2,12 +2,12 @@ from card import Card
 from solver import is_set, find_sets
 from utils import shapes, colors, numbers, fills
 
-from random import seed, sample, shuffle, choice
+from random import seed, shuffle, choice
 
 
 class Game:
     def __init__(self) -> None:
-        seed(42)
+        seed("set")
         cap_size = 21
 
         self.deck = self.generate_deck()
@@ -16,7 +16,7 @@ class Game:
         self.deck = self.deck[:-cap_size]
         self.selected = []
 
-        self.hint = False
+        self.sets = []
         self.hint_set = []
 
     def generate_deck(self):
@@ -42,7 +42,8 @@ class Game:
             found = is_set(card1, card2, card3)
             if found:
                 self.replace_cards()
-                self.hint = False
+                self.sets = []
+                self.hint_set = []
 
             self.selected = []
 
@@ -57,49 +58,14 @@ class Game:
     """
 
     def solve(self):
-        if not self.hint:
-            sets = find_sets(self.cards)
-            hint_set = choice(sets)
-            self.hint_set = []
+        if len(self.sets) == 0:
+            self.sets = find_sets(self.cards)
 
-            for card in self.cards:
-                if card in hint_set:
-                    self.hint_set.append(card)
+        hint_set = choice(self.sets)
+        hint_indices = []
 
-        self.hint = not self.hint
+        for index, card in enumerate(self.cards):
+            if card in hint_set:
+                hint_indices.append(index)
 
-    def get_hint_indices(self):
-        indices = {}
-        for c in self.hint_set:
-            for i, o in enumerate(self.cards):
-                if c == o:
-                    indices[i] = o
-                    break
-
-        return indices
-
-    def play(self):
-        while True:
-            print("Board")
-            for i, card in enumerate(game.cards):
-                print(f"{i}: {card}")
-            print()
-
-            print("Hint:")
-            game.solve()
-            for k, v in game.get_hint_indices().items():
-                print(f"{k}: {v}")
-            print()
-
-            a = input("c1: ")
-            b = input("c2: ")
-            c = input("c3: ")
-
-            self.select_card(int(a))
-            self.select_card(int(b))
-            self.select_card(int(c))
-
-
-if __name__ == "__main__":
-    game = Game()
-    game.play()
+        self.hint_set = hint_indices

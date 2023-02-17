@@ -100,13 +100,19 @@ def draw_window(win, game):
         w_pos, h_pos = get_wh_offsets(win, resized_w, resized_h, index)
         win.blit(im, (w_pos, h_pos))
 
+    get_rendered_solve_button(win)
+
+    for card_index in game.hint_set:
+        w_pos, h_pos = get_wh_offsets(win, resized_w, resized_h, card_index)
+        rect_dims = (w_pos, h_pos, resized_w, resized_h)
+
+        pygame.draw.rect(win, BLUE, rect_dims, width=4)
+
     for card_index in game.selected:
         w_pos, h_pos = get_wh_offsets(win, resized_w, resized_h, card_index)
         rect_dims = (w_pos, h_pos, resized_w, resized_h)
 
         pygame.draw.rect(win, GREEN, rect_dims, width=4)
-
-    get_rendered_solve_button(win)
 
     display.update()
 
@@ -136,7 +142,7 @@ def game_loop():
                         game.select_card(i)
 
                 if solve_button.collidepoint(x, y):
-                    print("solve attempt")
+                    game.solve()
 
             if event.type == pygame.QUIT:
                 running = False
