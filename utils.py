@@ -43,6 +43,7 @@ fill_basis = {"filled": 0, "blank": 1, "lined": 2}
 
 OFF_WHITE = (250, 250, 250)
 GREEN = (0, 255, 0)
+BLUE = (0, 0, 255)
 
 COLS = 7
 ROWS = 3

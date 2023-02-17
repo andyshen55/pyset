@@ -32,6 +32,8 @@ class Game:
     def select_card(self, card_index):
         if card_index not in self.selected:
             self.selected.append(card_index)
+        else:
+            self.selected.remove(card_index)
 
         if len(self.selected) == 3:
             i, j, k = self.selected
