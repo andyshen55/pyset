@@ -13,3 +13,9 @@ Conda installation:
 - `conda activate <your_env_name>`
 - `conda install pip`
 - `pip install pygame`
+
+
+## Running
+
+After setting up the Python environment, you can run the game with:
+`python set.py` 
