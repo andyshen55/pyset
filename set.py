@@ -3,7 +3,7 @@ from pygame import display
 import os
 from game import Game
 
-from utils import OFF_WHITE, GREEN, COLS, ROWS
+from utils import OFF_WHITE, GREEN, BLUE, COLS, ROWS
 
 # Sets display window size to full screen
 def set_game_window():
@@ -54,11 +54,37 @@ def get_wh_offsets(win, card_w, card_h, index):
     row = index // 7
     col = index % 7
 
-    #
+    # Card position defined as h/w offset + gap dependent on number of cards before
     im_w_gap = col * (card_w + w_gap)
     im_h_gap = row * (card_h + h_gap)
 
     return im_w_gap + w_offset, im_h_gap + h_offset
+
+
+# Render solver button with text, and return Rect positions for main loop to handle clicks
+def get_rendered_solve_button(win):
+    full_w, full_h = win.get_size()
+
+    # Button size constants chosen purely for aesthetic reasons
+    button_w = full_w // 3
+    button_h = full_h // 10
+
+    # Offsets depend on chosen button size, need to adjust if changed
+    solve_button = (full_w // 3, 2 * (full_h // 3), button_w, button_h)
+    pygame.draw.rect(win, BLUE, solve_button, border_radius=25)
+
+    # Text width/height are center-aligned, rather than top left corner
+    text_w = full_w // 2
+    text_h = solve_button[1] + (solve_button[3] // 2)
+
+    font = pygame.font.Font(None, 69)
+    text = font.render("Solve", True, OFF_WHITE)
+    textRect = text.get_rect()
+    textRect.center = text_w, text_h
+
+    win.blit(text, textRect)
+
+    return solve_button
 
 
 # Render board and currently selected cards
@@ -80,13 +106,19 @@ def draw_window(win, game):
 
         pygame.draw.rect(win, GREEN, rect_dims, width=4)
 
+    get_rendered_solve_button(win)
+
     display.update()
 
 
 def game_loop():
+    pygame.font.init()
     win = set_game_window()
     game = Game()
     board = []
+
+    button_w, button_h, size_w, size_h = get_rendered_solve_button(win)
+    solve_button = pygame.Rect(button_w, button_h, size_w, size_h)
 
     # Use non-rendered rectangles to represent card clickboxes
     resized_w, resized_h = get_card_size(win, game.cards[0])
@@ -102,6 +134,9 @@ def game_loop():
                 for i in range(21):
                     if board[i].collidepoint(x, y):
                         game.select_card(i)
+
+                if solve_button.collidepoint(x, y):
+                    print("solve attempt")
 
             if event.type == pygame.QUIT:
                 running = False
