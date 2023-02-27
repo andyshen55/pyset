@@ -18,4 +18,4 @@ Conda installation:
 ## Running
 
 After setting up the Python environment, you can run the game with:
-`python set.py` 
+`python src/set.py` 
