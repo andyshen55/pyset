@@ -1,15 +1,16 @@
-from utils import compress_card
+from utils import shape_basis, color_basis, fill_basis
 
 
 class Card:
     def __init__(self, shape, color, number, fill) -> None:
-        self.shape = shape.lower()
-        self.color = color.lower()
+        self.shape = shape
+        self.color = color
         self.number = number
-        self.fill = fill.lower()
+        self.fill = fill
 
     def __repr__(self):
-        return f"shape: {self.shape} | color: {self.color} | number: {self.number} | fill: {self.fill}"
+        shape, color, number, fill = self.convert_bases()
+        return f"shape: {shape} | color: {color} | number: {number} | fill: {fill}"
 
     def __eq__(self, other):
         return (
@@ -19,25 +20,18 @@ class Card:
             and self.fill == other.fill
         )
 
-    def card_string(self):
-        return compress_card(self.shape, self.color, self.number, self.fill)
+    def __add__(self, other):
+        shape = (self.shape + other.shape) % 3
+        color = (self.color + other.color) % 3
+        number = (self.number + other.number) % 3
+        fill = (self.fill + other.fill) % 3
 
+        return Card(shape, color, number, fill)
 
-if __name__ == "__main__":
-    shapes = ["squiggle", "oval", "diamond"]
-    colors = ["green", "red", "purple"]
-    numbers = [1, 2, 3]
-    fills = ["filled", "blank", "lined"]
+    def convert_bases(self):
+        shape = shape_basis[self.shape]
+        color = color_basis[self.color]
+        number = self.number + 1
+        fill = fill_basis[self.fill]
 
-    deck = []
-    for s in shapes:
-        for c in colors:
-            for n in numbers:
-                for f in fills:
-                    deck.append(Card(s, c, n, f))
-
-    assert len(deck) == pow(3, 4)
-
-    for card in deck:
-        compressed = card.card_string()
-        print(compressed, card, "", sep="\n")
+        return shape, color, number, fill

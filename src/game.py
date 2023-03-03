@@ -1,6 +1,5 @@
 from card import Card
 from solver import is_set, find_sets
-from utils import shapes, colors, numbers, fills
 
 from random import seed, shuffle, choice
 
@@ -12,8 +11,8 @@ class Game:
 
         self.deck = self.generate_deck()
         shuffle(self.deck)
-        self.cards = self.deck[-cap_size:]
-        self.deck = self.deck[:-cap_size]
+        self.cards = self.deck[:cap_size]
+        self.deck = self.deck[cap_size:]
         self.selected = []
 
         self.sets = []
@@ -21,10 +20,10 @@ class Game:
 
     def generate_deck(self):
         deck = []
-        for s in shapes:
-            for c in colors:
-                for n in numbers:
-                    for f in fills:
+        for s in range(3):
+            for c in range(3):
+                for n in range(3):
+                    for f in range(3):
                         deck.append(Card(s, c, n, f))
 
         return deck

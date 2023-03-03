@@ -1,18 +1,9 @@
-from utils import shape_basis, color_basis, number_basis, fill_basis
+from card import Card
 
 
 def is_set(a, b, c):
-    shape = (shape_basis[a.shape] + shape_basis[b.shape] + shape_basis[c.shape]) % 3
-    color = (color_basis[a.color] + color_basis[b.color] + color_basis[c.color]) % 3
-    number = (
-        number_basis[a.number] + number_basis[b.number] + number_basis[c.number]
-    ) % 3
-    fill = (fill_basis[a.fill] + fill_basis[b.fill] + fill_basis[c.fill]) % 3
-
-    if shape == color == number == fill == 0:
-        return True
-
-    return False
+    summed = a + b + c
+    return summed == Card(0, 0, 0, 0)
 
 
 def find_sets(cards):
