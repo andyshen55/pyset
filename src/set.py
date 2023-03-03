@@ -16,8 +16,8 @@ def set_game_window():
 
 # Generate asset path for card
 def card_to_img(card):
-    fill_dict = {"filled": "filled", "lined": "shaded", "blank": "empty"}
-    return f"{card.color}{card.shape}{fill_dict[card.fill]}{card.number}.png"
+    shape, color, number, fill = card.convert_bases()
+    return f"{color}{shape}{fill}{number}.png"
 
 
 # Dynamically compute card dimensions based on full screen size
